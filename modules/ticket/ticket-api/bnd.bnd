@@ -1,0 +1,10 @@
+Bundle-Name: ticket-api
+Bundle-SymbolicName: ticket.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	ticket.exception,\
+	ticket.model,\
+	ticket.service,\
+	ticket.service.persistence
+-check: EXPORTS
+-includeresource: META-INF/service.xml=../ticket-service/service.xml

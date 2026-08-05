@@ -1,0 +1,12 @@
+dependencies {
+	api project(":modules:ticket:ticket-api")
+
+	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+}
+
+buildService {
+	apiDir = "../ticket-api/src/main/java"
+	testDir = "../ticket-test/src/testIntegration/java"
+}
+
+group = "ticket"
