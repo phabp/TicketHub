@@ -37,6 +37,15 @@ public class TicketLocalServiceUtil {
 	 *
 	 * Never modify this class directly. Add custom service methods to <code>ticket.service.impl.TicketLocalServiceImpl</code> and rerun ServiceBuilder to regenerate this class.
 	 */
+	public static Ticket addTicket(
+			long groupId, long userId, String title, String description,
+			String category, String priority, long assignedToUserId)
+		throws PortalException {
+
+		return getService().addTicket(
+			groupId, userId, title, description, category, priority,
+			assignedToUserId);
+	}
 
 	/**
 	 * Adds the ticket to the database. Also notifies the appropriate model listeners.
@@ -354,4 +363,4 @@ public class TicketLocalServiceUtil {
 		new Snapshot<>(TicketLocalServiceUtil.class, TicketLocalService.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:848902864
+// LIFERAY-SERVICE-BUILDER-HASH:466216791

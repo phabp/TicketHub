@@ -26,6 +26,17 @@ public class TicketLocalServiceWrapper
 		_ticketLocalService = ticketLocalService;
 	}
 
+	@Override
+	public ticket.model.Ticket addTicket(
+			long groupId, long userId, String title, String description,
+			String category, String priority, long assignedToUserId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _ticketLocalService.addTicket(
+			groupId, userId, title, description, category, priority,
+			assignedToUserId);
+	}
+
 	/**
 	 * Adds the ticket to the database. Also notifies the appropriate model listeners.
 	 *
@@ -396,4 +407,4 @@ public class TicketLocalServiceWrapper
 	private TicketLocalService _ticketLocalService;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-52389961
+// LIFERAY-SERVICE-BUILDER-HASH:1577323920

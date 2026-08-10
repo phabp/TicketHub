@@ -55,6 +55,10 @@ public interface TicketLocalService
 	 *
 	 * Never modify this interface directly. Add custom service methods to <code>ticket.service.impl.TicketLocalServiceImpl</code> and rerun ServiceBuilder to automatically copy the method declarations to this interface. Consume the ticket local service via injection or a <code>org.osgi.util.tracker.ServiceTracker</code>. Use {@link TicketLocalServiceUtil} if injection and service tracking are not available.
 	 */
+	public Ticket addTicket(
+			long groupId, long userId, String title, String description,
+			String category, String priority, long assignedToUserId)
+		throws PortalException;
 
 	/**
 	 * Adds the ticket to the database. Also notifies the appropriate model listeners.
@@ -312,4 +316,4 @@ public interface TicketLocalService
 	public Ticket updateTicket(Ticket ticket);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1740428167
+// LIFERAY-SERVICE-BUILDER-HASH:-48030252
