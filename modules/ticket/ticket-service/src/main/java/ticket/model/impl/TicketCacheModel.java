@@ -270,4 +270,3 @@ public class TicketCacheModel implements CacheModel<Ticket>, Externalizable {
 	public long assignedToUserId;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1027830603

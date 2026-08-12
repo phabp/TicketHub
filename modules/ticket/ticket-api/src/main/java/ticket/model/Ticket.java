@@ -48,4 +48,3 @@ public interface Ticket extends PersistedModel, TicketModel {
 		};
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:-1618861111

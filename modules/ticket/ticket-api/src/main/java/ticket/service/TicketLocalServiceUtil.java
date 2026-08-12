@@ -363,4 +363,3 @@ public class TicketLocalServiceUtil {
 		new Snapshot<>(TicketLocalServiceUtil.class, TicketLocalService.class);
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:466216791

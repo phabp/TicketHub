@@ -407,4 +407,3 @@ public class TicketLocalServiceWrapper
 	private TicketLocalService _ticketLocalService;
 
 }
-// LIFERAY-SERVICE-BUILDER-HASH:1577323920
