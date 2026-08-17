@@ -9,9 +9,11 @@ import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
 import java.util.Date;
+import java.util.List;
 import org.osgi.service.component.annotations.Component;
 import ticket.model.Ticket;
 import ticket.service.base.TicketLocalServiceBaseImpl;
+
 
 /**
  * @author Brian Wing Shun Chan
@@ -50,6 +52,13 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 		ticket.setAssignedToUserId(assignedToUserId);
 
 		return ticketPersistence.update(ticket);
+	}
+
+	public List<Ticket> getTicketsByAssignedToUserId(
+			long assignedToUserId) {
+
+		return ticketPersistence.findByAssignedToUserId(
+				assignedToUserId);
 	}
 }
 // LIFERAY-SERVICE-BUILDER-HASH:1612458912
