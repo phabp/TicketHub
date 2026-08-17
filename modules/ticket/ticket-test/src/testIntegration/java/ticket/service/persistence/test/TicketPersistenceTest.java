@@ -212,6 +212,13 @@ public class TicketPersistenceTest {
 	}
 
 	@Test
+	public void testCountByAssignedToUserId() throws Exception {
+		_persistence.countByAssignedToUserId(RandomTestUtil.nextLong());
+
+		_persistence.countByAssignedToUserId(0L);
+	}
+
+	@Test
 	public void testFindByPrimaryKeyExisting() throws Exception {
 		Ticket newTicket = addTicket();
 

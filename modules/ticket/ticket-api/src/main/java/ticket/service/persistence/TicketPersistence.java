@@ -523,6 +523,149 @@ public interface TicketPersistence extends BasePersistence<Ticket> {
 	public int countByGroupId(long groupId);
 
 	/**
+	 * Returns all the tickets where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @return the matching tickets
+	 */
+	public java.util.List<Ticket> findByAssignedToUserId(long assignedToUserId);
+
+	/**
+	 * Returns a range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @return the range of matching tickets
+	 */
+	public java.util.List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end);
+
+	/**
+	 * Returns an ordered range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching tickets
+	 */
+	public java.util.List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+			orderByComparator);
+
+	/**
+	 * Returns an ordered range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching tickets
+	 */
+	public java.util.List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end,
+		com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+			orderByComparator,
+		boolean useFinderCache);
+
+	/**
+	 * Returns the first ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ticket
+	 * @throws NoSuchTicketException if a matching ticket could not be found
+	 */
+	public Ticket findByAssignedToUserId_First(
+			long assignedToUserId,
+			com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+				orderByComparator)
+		throws NoSuchTicketException;
+
+	/**
+	 * Returns the first ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ticket, or <code>null</code> if a matching ticket could not be found
+	 */
+	public Ticket fetchByAssignedToUserId_First(
+		long assignedToUserId,
+		com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+			orderByComparator);
+
+	/**
+	 * Returns the last ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ticket
+	 * @throws NoSuchTicketException if a matching ticket could not be found
+	 */
+	public Ticket findByAssignedToUserId_Last(
+			long assignedToUserId,
+			com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+				orderByComparator)
+		throws NoSuchTicketException;
+
+	/**
+	 * Returns the last ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ticket, or <code>null</code> if a matching ticket could not be found
+	 */
+	public Ticket fetchByAssignedToUserId_Last(
+		long assignedToUserId,
+		com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+			orderByComparator);
+
+	/**
+	 * Returns the tickets before and after the current ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param ticketId the primary key of the current ticket
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next ticket
+	 * @throws NoSuchTicketException if a ticket with the primary key could not be found
+	 */
+	public Ticket[] findByAssignedToUserId_PrevAndNext(
+			long ticketId, long assignedToUserId,
+			com.liferay.portal.kernel.util.OrderByComparator<Ticket>
+				orderByComparator)
+		throws NoSuchTicketException;
+
+	/**
+	 * Removes all the tickets where assignedToUserId = &#63; from the database.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 */
+	public void removeByAssignedToUserId(long assignedToUserId);
+
+	/**
+	 * Returns the number of tickets where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @return the number of matching tickets
+	 */
+	public int countByAssignedToUserId(long assignedToUserId);
+
+	/**
 	 * Caches the ticket in the entity cache if it is enabled.
 	 *
 	 * @param ticket the ticket

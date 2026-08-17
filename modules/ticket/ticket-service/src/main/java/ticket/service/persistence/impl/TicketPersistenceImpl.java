@@ -1928,6 +1928,504 @@ public class TicketPersistenceImpl
 	private static final String _FINDER_COLUMN_GROUPID_GROUPID_2 =
 		"ticket.groupId = ?";
 
+	private FinderPath _finderPathWithPaginationFindByAssignedToUserId;
+	private FinderPath _finderPathWithoutPaginationFindByAssignedToUserId;
+	private FinderPath _finderPathCountByAssignedToUserId;
+
+	/**
+	 * Returns all the tickets where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @return the matching tickets
+	 */
+	@Override
+	public List<Ticket> findByAssignedToUserId(long assignedToUserId) {
+		return findByAssignedToUserId(
+			assignedToUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS, null);
+	}
+
+	/**
+	 * Returns a range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @return the range of matching tickets
+	 */
+	@Override
+	public List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end) {
+
+		return findByAssignedToUserId(assignedToUserId, start, end, null);
+	}
+
+	/**
+	 * Returns an ordered range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @return the ordered range of matching tickets
+	 */
+	@Override
+	public List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end,
+		OrderByComparator<Ticket> orderByComparator) {
+
+		return findByAssignedToUserId(
+			assignedToUserId, start, end, orderByComparator, true);
+	}
+
+	/**
+	 * Returns an ordered range of all the tickets where assignedToUserId = &#63;.
+	 *
+	 * <p>
+	 * Useful when paginating results. Returns a maximum of <code>end - start</code> instances. <code>start</code> and <code>end</code> are not primary keys, they are indexes in the result set. Thus, <code>0</code> refers to the first result in the set. Setting both <code>start</code> and <code>end</code> to <code>QueryUtil#ALL_POS</code> will return the full result set. If <code>orderByComparator</code> is specified, then the query will include the given ORDER BY logic. If <code>orderByComparator</code> is absent, then the query will include the default ORDER BY logic from <code>TicketModelImpl</code>.
+	 * </p>
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param start the lower bound of the range of tickets
+	 * @param end the upper bound of the range of tickets (not inclusive)
+	 * @param orderByComparator the comparator to order the results by (optionally <code>null</code>)
+	 * @param useFinderCache whether to use the finder cache
+	 * @return the ordered range of matching tickets
+	 */
+	@Override
+	public List<Ticket> findByAssignedToUserId(
+		long assignedToUserId, int start, int end,
+		OrderByComparator<Ticket> orderByComparator, boolean useFinderCache) {
+
+		FinderPath finderPath = null;
+		Object[] finderArgs = null;
+
+		if ((start == QueryUtil.ALL_POS) && (end == QueryUtil.ALL_POS) &&
+			(orderByComparator == null)) {
+
+			if (useFinderCache) {
+				finderPath = _finderPathWithoutPaginationFindByAssignedToUserId;
+				finderArgs = new Object[] {assignedToUserId};
+			}
+		}
+		else if (useFinderCache) {
+			finderPath = _finderPathWithPaginationFindByAssignedToUserId;
+			finderArgs = new Object[] {
+				assignedToUserId, start, end, orderByComparator
+			};
+		}
+
+		List<Ticket> list = null;
+
+		if (useFinderCache) {
+			list = (List<Ticket>)finderCache.getResult(
+				finderPath, finderArgs, this);
+
+			if ((list != null) && !list.isEmpty()) {
+				for (Ticket ticket : list) {
+					if (assignedToUserId != ticket.getAssignedToUserId()) {
+						list = null;
+
+						break;
+					}
+				}
+			}
+		}
+
+		if (list == null) {
+			StringBundler sb = null;
+
+			if (orderByComparator != null) {
+				sb = new StringBundler(
+					3 + (orderByComparator.getOrderByFields().length * 2));
+			}
+			else {
+				sb = new StringBundler(3);
+			}
+
+			sb.append(_SQL_SELECT_TICKET_WHERE);
+
+			sb.append(_FINDER_COLUMN_ASSIGNEDTOUSERID_ASSIGNEDTOUSERID_2);
+
+			if (orderByComparator != null) {
+				appendOrderByComparator(
+					sb, _ORDER_BY_ENTITY_ALIAS, orderByComparator);
+			}
+			else {
+				sb.append(TicketModelImpl.ORDER_BY_JPQL);
+			}
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(assignedToUserId);
+
+				list = (List<Ticket>)QueryUtil.list(
+					query, getDialect(), start, end);
+
+				cacheResult(list);
+
+				if (useFinderCache) {
+					finderCache.putResult(finderPath, finderArgs, list);
+				}
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return list;
+	}
+
+	/**
+	 * Returns the first ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ticket
+	 * @throws NoSuchTicketException if a matching ticket could not be found
+	 */
+	@Override
+	public Ticket findByAssignedToUserId_First(
+			long assignedToUserId, OrderByComparator<Ticket> orderByComparator)
+		throws NoSuchTicketException {
+
+		Ticket ticket = fetchByAssignedToUserId_First(
+			assignedToUserId, orderByComparator);
+
+		if (ticket != null) {
+			return ticket;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("assignedToUserId=");
+		sb.append(assignedToUserId);
+
+		sb.append("}");
+
+		throw new NoSuchTicketException(sb.toString());
+	}
+
+	/**
+	 * Returns the first ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the first matching ticket, or <code>null</code> if a matching ticket could not be found
+	 */
+	@Override
+	public Ticket fetchByAssignedToUserId_First(
+		long assignedToUserId, OrderByComparator<Ticket> orderByComparator) {
+
+		List<Ticket> list = findByAssignedToUserId(
+			assignedToUserId, 0, 1, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the last ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ticket
+	 * @throws NoSuchTicketException if a matching ticket could not be found
+	 */
+	@Override
+	public Ticket findByAssignedToUserId_Last(
+			long assignedToUserId, OrderByComparator<Ticket> orderByComparator)
+		throws NoSuchTicketException {
+
+		Ticket ticket = fetchByAssignedToUserId_Last(
+			assignedToUserId, orderByComparator);
+
+		if (ticket != null) {
+			return ticket;
+		}
+
+		StringBundler sb = new StringBundler(4);
+
+		sb.append(_NO_SUCH_ENTITY_WITH_KEY);
+
+		sb.append("assignedToUserId=");
+		sb.append(assignedToUserId);
+
+		sb.append("}");
+
+		throw new NoSuchTicketException(sb.toString());
+	}
+
+	/**
+	 * Returns the last ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the last matching ticket, or <code>null</code> if a matching ticket could not be found
+	 */
+	@Override
+	public Ticket fetchByAssignedToUserId_Last(
+		long assignedToUserId, OrderByComparator<Ticket> orderByComparator) {
+
+		int count = countByAssignedToUserId(assignedToUserId);
+
+		if (count == 0) {
+			return null;
+		}
+
+		List<Ticket> list = findByAssignedToUserId(
+			assignedToUserId, count - 1, count, orderByComparator);
+
+		if (!list.isEmpty()) {
+			return list.get(0);
+		}
+
+		return null;
+	}
+
+	/**
+	 * Returns the tickets before and after the current ticket in the ordered set where assignedToUserId = &#63;.
+	 *
+	 * @param ticketId the primary key of the current ticket
+	 * @param assignedToUserId the assigned to user ID
+	 * @param orderByComparator the comparator to order the set by (optionally <code>null</code>)
+	 * @return the previous, current, and next ticket
+	 * @throws NoSuchTicketException if a ticket with the primary key could not be found
+	 */
+	@Override
+	public Ticket[] findByAssignedToUserId_PrevAndNext(
+			long ticketId, long assignedToUserId,
+			OrderByComparator<Ticket> orderByComparator)
+		throws NoSuchTicketException {
+
+		Ticket ticket = findByPrimaryKey(ticketId);
+
+		Session session = null;
+
+		try {
+			session = openSession();
+
+			Ticket[] array = new TicketImpl[3];
+
+			array[0] = getByAssignedToUserId_PrevAndNext(
+				session, ticket, assignedToUserId, orderByComparator, true);
+
+			array[1] = ticket;
+
+			array[2] = getByAssignedToUserId_PrevAndNext(
+				session, ticket, assignedToUserId, orderByComparator, false);
+
+			return array;
+		}
+		catch (Exception exception) {
+			throw processException(exception);
+		}
+		finally {
+			closeSession(session);
+		}
+	}
+
+	protected Ticket getByAssignedToUserId_PrevAndNext(
+		Session session, Ticket ticket, long assignedToUserId,
+		OrderByComparator<Ticket> orderByComparator, boolean previous) {
+
+		StringBundler sb = null;
+
+		if (orderByComparator != null) {
+			sb = new StringBundler(
+				4 + (orderByComparator.getOrderByConditionFields().length * 3) +
+					(orderByComparator.getOrderByFields().length * 3));
+		}
+		else {
+			sb = new StringBundler(3);
+		}
+
+		sb.append(_SQL_SELECT_TICKET_WHERE);
+
+		sb.append(_FINDER_COLUMN_ASSIGNEDTOUSERID_ASSIGNEDTOUSERID_2);
+
+		if (orderByComparator != null) {
+			String[] orderByConditionFields =
+				orderByComparator.getOrderByConditionFields();
+
+			if (orderByConditionFields.length > 0) {
+				sb.append(WHERE_AND);
+			}
+
+			for (int i = 0; i < orderByConditionFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByConditionFields[i]);
+
+				if ((i + 1) < orderByConditionFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN_HAS_NEXT);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(WHERE_GREATER_THAN);
+					}
+					else {
+						sb.append(WHERE_LESSER_THAN);
+					}
+				}
+			}
+
+			sb.append(ORDER_BY_CLAUSE);
+
+			String[] orderByFields = orderByComparator.getOrderByFields();
+
+			for (int i = 0; i < orderByFields.length; i++) {
+				sb.append(_ORDER_BY_ENTITY_ALIAS);
+				sb.append(orderByFields[i]);
+
+				if ((i + 1) < orderByFields.length) {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC_HAS_NEXT);
+					}
+					else {
+						sb.append(ORDER_BY_DESC_HAS_NEXT);
+					}
+				}
+				else {
+					if (orderByComparator.isAscending() ^ previous) {
+						sb.append(ORDER_BY_ASC);
+					}
+					else {
+						sb.append(ORDER_BY_DESC);
+					}
+				}
+			}
+		}
+		else {
+			sb.append(TicketModelImpl.ORDER_BY_JPQL);
+		}
+
+		String sql = sb.toString();
+
+		Query query = session.createQuery(sql);
+
+		query.setFirstResult(0);
+		query.setMaxResults(2);
+
+		QueryPos queryPos = QueryPos.getInstance(query);
+
+		queryPos.add(assignedToUserId);
+
+		if (orderByComparator != null) {
+			for (Object orderByConditionValue :
+					orderByComparator.getOrderByConditionValues(ticket)) {
+
+				queryPos.add(orderByConditionValue);
+			}
+		}
+
+		List<Ticket> list = query.list();
+
+		if (list.size() == 2) {
+			return list.get(1);
+		}
+		else {
+			return null;
+		}
+	}
+
+	/**
+	 * Removes all the tickets where assignedToUserId = &#63; from the database.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 */
+	@Override
+	public void removeByAssignedToUserId(long assignedToUserId) {
+		for (Ticket ticket :
+				findByAssignedToUserId(
+					assignedToUserId, QueryUtil.ALL_POS, QueryUtil.ALL_POS,
+					null)) {
+
+			remove(ticket);
+		}
+	}
+
+	/**
+	 * Returns the number of tickets where assignedToUserId = &#63;.
+	 *
+	 * @param assignedToUserId the assigned to user ID
+	 * @return the number of matching tickets
+	 */
+	@Override
+	public int countByAssignedToUserId(long assignedToUserId) {
+		FinderPath finderPath = _finderPathCountByAssignedToUserId;
+
+		Object[] finderArgs = new Object[] {assignedToUserId};
+
+		Long count = (Long)finderCache.getResult(finderPath, finderArgs, this);
+
+		if (count == null) {
+			StringBundler sb = new StringBundler(2);
+
+			sb.append(_SQL_COUNT_TICKET_WHERE);
+
+			sb.append(_FINDER_COLUMN_ASSIGNEDTOUSERID_ASSIGNEDTOUSERID_2);
+
+			String sql = sb.toString();
+
+			Session session = null;
+
+			try {
+				session = openSession();
+
+				Query query = session.createQuery(sql);
+
+				QueryPos queryPos = QueryPos.getInstance(query);
+
+				queryPos.add(assignedToUserId);
+
+				count = (Long)query.uniqueResult();
+
+				finderCache.putResult(finderPath, finderArgs, count);
+			}
+			catch (Exception exception) {
+				throw processException(exception);
+			}
+			finally {
+				closeSession(session);
+			}
+		}
+
+		return count.intValue();
+	}
+
+	private static final String
+		_FINDER_COLUMN_ASSIGNEDTOUSERID_ASSIGNEDTOUSERID_2 =
+			"ticket.assignedToUserId = ?";
+
 	public TicketPersistenceImpl() {
 		Map<String, String> dbColumnNames = new HashMap<String, String>();
 
@@ -2554,6 +3052,24 @@ public class TicketPersistenceImpl
 			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "countByGroupId",
 			new String[] {Long.class.getName()}, new String[] {"groupId"},
 			false);
+
+		_finderPathWithPaginationFindByAssignedToUserId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITH_PAGINATION, "findByAssignedToUserId",
+			new String[] {
+				Long.class.getName(), Integer.class.getName(),
+				Integer.class.getName(), OrderByComparator.class.getName()
+			},
+			new String[] {"assignedToUserId"}, true);
+
+		_finderPathWithoutPaginationFindByAssignedToUserId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION, "findByAssignedToUserId",
+			new String[] {Long.class.getName()},
+			new String[] {"assignedToUserId"}, true);
+
+		_finderPathCountByAssignedToUserId = new FinderPath(
+			FINDER_CLASS_NAME_LIST_WITHOUT_PAGINATION,
+			"countByAssignedToUserId", new String[] {Long.class.getName()},
+			new String[] {"assignedToUserId"}, false);
 
 		TicketUtil.setPersistence(this);
 	}
