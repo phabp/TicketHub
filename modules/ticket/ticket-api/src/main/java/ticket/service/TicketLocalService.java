@@ -268,6 +268,9 @@ public interface TicketLocalService
 	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 	public List<Ticket> getTickets(int start, int end);
 
+	@Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+	public List<Ticket> getTicketsByAssignedToUserId(long assignedToUserId);
+
 	/**
 	 * Returns all the tickets matching the UUID and company.
 	 *

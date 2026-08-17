@@ -301,6 +301,12 @@ public class TicketLocalServiceUtil {
 		return getService().getTickets(start, end);
 	}
 
+	public static List<Ticket> getTicketsByAssignedToUserId(
+		long assignedToUserId) {
+
+		return getService().getTicketsByAssignedToUserId(assignedToUserId);
+	}
+
 	/**
 	 * Returns all the tickets matching the UUID and company.
 	 *

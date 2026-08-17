@@ -329,6 +329,14 @@ public class TicketLocalServiceWrapper
 		return _ticketLocalService.getTickets(start, end);
 	}
 
+	@Override
+	public java.util.List<ticket.model.Ticket> getTicketsByAssignedToUserId(
+		long assignedToUserId) {
+
+		return _ticketLocalService.getTicketsByAssignedToUserId(
+			assignedToUserId);
+	}
+
 	/**
 	 * Returns all the tickets matching the UUID and company.
 	 *

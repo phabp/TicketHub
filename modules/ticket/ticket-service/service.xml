@@ -43,6 +43,10 @@
 			<finder-column name="groupId" />
 		</finder>
 
+		<finder name="AssignedToUserId" return-type="Collection">
+			<finder-column name="assignedToUserId" />
+		</finder>
+
 
 
 	</entity>
