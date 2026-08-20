@@ -60,5 +60,24 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 		return ticketPersistence.findByAssignedToUserId(
 				assignedToUserId);
 	}
+
+	public Ticket updateTicket(
+			long ticketId, String title, String description,
+			String category, String priority, String status,
+			long assignedToUserId)
+			throws PortalException {
+
+		Ticket ticket = getTicket(ticketId);
+
+		ticket.setTitle(title);
+		ticket.setDescription(description);
+		ticket.setCategory(category);
+		ticket.setPriority(priority);
+		ticket.setStatus(status);
+		ticket.setAssignedToUserId(assignedToUserId);
+		ticket.setModifiedDate(new Date());
+
+		return updateTicket(ticket);
+	}
 }
 // LIFERAY-SERVICE-BUILDER-HASH:1612458912
