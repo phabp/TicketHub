@@ -347,6 +347,16 @@ public class TicketLocalServiceUtil {
 		return getService().getTicketsCount();
 	}
 
+	public static Ticket updateTicket(
+			long ticketId, String title, String description, String category,
+			String priority, String status, long assignedToUserId)
+		throws PortalException {
+
+		return getService().updateTicket(
+			ticketId, title, description, category, priority, status,
+			assignedToUserId);
+	}
+
 	/**
 	 * Updates the ticket in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *

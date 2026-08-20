@@ -382,6 +382,17 @@ public class TicketLocalServiceWrapper
 		return _ticketLocalService.getTicketsCount();
 	}
 
+	@Override
+	public ticket.model.Ticket updateTicket(
+			long ticketId, String title, String description, String category,
+			String priority, String status, long assignedToUserId)
+		throws com.liferay.portal.kernel.exception.PortalException {
+
+		return _ticketLocalService.updateTicket(
+			ticketId, title, description, category, priority, status,
+			assignedToUserId);
+	}
+
 	/**
 	 * Updates the ticket in the database or adds it if it does not yet exist. Also notifies the appropriate model listeners.
 	 *
