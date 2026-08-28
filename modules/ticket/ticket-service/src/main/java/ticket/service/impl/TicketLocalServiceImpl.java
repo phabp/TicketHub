@@ -79,7 +79,7 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 
 		return updateTicket(ticket);
 	}
-
+	@Override
 	public Ticket deleteTicket(long ticketId) throws PortalException {
 		Ticket ticket = getTicket(ticketId);
 
