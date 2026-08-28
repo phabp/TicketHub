@@ -79,5 +79,16 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 
 		return updateTicket(ticket);
 	}
+
+	public Ticket deleteTicket(long ticketId) throws PortalException {
+		Ticket ticket = getTicket(ticketId);
+
+		if ("CLOSED".equals(ticket.getStatus())) {
+			throw new PortalException(
+					"IMPORTANT: A closed ticket cannot be deleted, for record reasons!");
+		}
+
+		return deleteTicket(ticket);
+	}
 }
 // LIFERAY-SERVICE-BUILDER-HASH:1612458912
