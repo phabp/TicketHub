@@ -1,0 +1,6 @@
+Bundle-Name: ticket-rest-api
+Bundle-SymbolicName: ticket.rest.api
+Bundle-Version: 1.0.0
+Export-Package:\
+	ticket.rest.dto.v1_0,\
+	ticket.rest.resource.v1_0

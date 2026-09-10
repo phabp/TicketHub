@@ -1,0 +1,5 @@
+Bundle-Name: ticket-rest-test
+Bundle-SymbolicName: ticket.rest.test
+Bundle-Version: 1.0.0
+-includeresource: ticket.rest.client.jar=../ticket-rest-client/build/libs/ticket.rest.client-1.0.0.jar;lib:=true
+-provider-policy: ${replacestring;${range;[==,==]};.*,(.*)];$1}

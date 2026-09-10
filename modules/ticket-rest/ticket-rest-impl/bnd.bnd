@@ -1,0 +1,3 @@
+Bundle-Name: ticket-rest-impl
+Bundle-SymbolicName: ticket.rest.impl
+Bundle-Version: 1.0.0
