@@ -1,8 +1,8 @@
 package ticket.rest.client.problem;
 
-import java.util.Objects;
+import jakarta.annotation.Generated;
 
-import javax.annotation.Generated;
+import java.util.Objects;
 
 import ticket.rest.client.json.BaseJSONParser;
 

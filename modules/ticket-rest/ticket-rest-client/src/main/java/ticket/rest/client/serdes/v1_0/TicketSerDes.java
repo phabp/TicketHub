@@ -1,12 +1,12 @@
 package ticket.rest.client.serdes.v1_0;
 
+import jakarta.annotation.Generated;
+
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.TreeMap;
-
-import javax.annotation.Generated;
 
 import ticket.rest.client.dto.v1_0.Ticket;
 import ticket.rest.client.json.BaseJSONParser;
@@ -327,6 +327,10 @@ public class TicketSerDes {
 	}
 
 	private static String _toJSON(Object value) {
+		if (value == null) {
+			return "null";
+		}
+
 		if (value instanceof Map) {
 			return _toJSON((Map)value);
 		}

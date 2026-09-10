@@ -11,7 +11,9 @@ import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
 import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 import com.liferay.portal.vulcan.util.ObjectMapperUtil;
 
-import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Generated;
+
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 import java.io.Serializable;
 
@@ -20,10 +22,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Supplier;
-
-import javax.annotation.Generated;
-
-import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  * @author me
@@ -43,7 +41,7 @@ public class Ticket implements Serializable {
 		return ObjectMapperUtil.unsafeReadValue(Ticket.class, json);
 	}
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public Long getAssignedToUserId() {
 		if (_assignedToUserIdSupplier != null) {
 			assignedToUserId = _assignedToUserIdSupplier.get();
@@ -84,7 +82,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<Long> _assignedToUserIdSupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public String getCategory() {
 		if (_categorySupplier != null) {
 			category = _categorySupplier.get();
@@ -125,7 +123,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<String> _categorySupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public String getDescription() {
 		if (_descriptionSupplier != null) {
 			description = _descriptionSupplier.get();
@@ -166,7 +164,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<String> _descriptionSupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public String getPriority() {
 		if (_prioritySupplier != null) {
 			priority = _prioritySupplier.get();
@@ -207,7 +205,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<String> _prioritySupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public String getStatus() {
 		if (_statusSupplier != null) {
 			status = _statusSupplier.get();
@@ -248,7 +246,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<String> _statusSupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public Long getTicketId() {
 		if (_ticketIdSupplier != null) {
 			ticketId = _ticketIdSupplier.get();
@@ -289,7 +287,7 @@ public class Ticket implements Serializable {
 	@JsonIgnore
 	private Supplier<Long> _ticketIdSupplier;
 
-	@Schema
+	@io.swagger.v3.oas.annotations.media.Schema
 	public String getTitle() {
 		if (_titleSupplier != null) {
 			title = _titleSupplier.get();
@@ -466,8 +464,8 @@ public class Ticket implements Serializable {
 		return sb.toString();
 	}
 
-	@Schema(
-		accessMode = Schema.AccessMode.READ_ONLY,
+	@io.swagger.v3.oas.annotations.media.Schema(
+		accessMode = io.swagger.v3.oas.annotations.media.Schema.AccessMode.READ_ONLY,
 		defaultValue = "ticket.rest.dto.v1_0.Ticket", name = "x-class-name"
 	)
 	public String xClassName;

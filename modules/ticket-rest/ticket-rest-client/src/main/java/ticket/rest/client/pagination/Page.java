@@ -1,5 +1,7 @@
 package ticket.rest.client.pagination;
 
+import jakarta.annotation.Generated;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,8 +10,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
-
-import javax.annotation.Generated;
 
 import ticket.rest.client.aggregation.Facet;
 import ticket.rest.client.json.BaseJSONParser;

@@ -2,6 +2,7 @@ dependencies {
 	api project(":modules:ticket-rest:ticket-rest-api")
 
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
+	compileOnly project(":modules:ticket:ticket-api")
 }
 
 group = "ticket.rest"
