@@ -8,6 +8,8 @@ import com.liferay.portal.odata.filter.ExpressionConvert;
 import com.liferay.portal.odata.filter.FilterParserProvider;
 import com.liferay.portal.odata.sort.SortParserProvider;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.pagination.Page;
 
 import jakarta.annotation.Generated;
 
@@ -38,6 +40,8 @@ import ticket.rest.dto.v1_0.Ticket;
 public interface TicketResource {
 
 	public Ticket getTicket(Long ticketId) throws Exception;
+
+	public Page<Ticket> getTickets() throws Exception;
 
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
@@ -78,6 +82,10 @@ public interface TicketResource {
 	public void setRoleLocalService(RoleLocalService roleLocalService);
 
 	public void setSortParserProvider(SortParserProvider sortParserProvider);
+
+	public void setVulcanBatchEngineImportTaskResource(
+		VulcanBatchEngineImportTaskResource
+			vulcanBatchEngineImportTaskResource);
 
 	public default com.liferay.portal.kernel.search.filter.Filter toFilter(
 		String filterString) {

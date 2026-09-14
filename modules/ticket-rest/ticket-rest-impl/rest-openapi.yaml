@@ -41,6 +41,11 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Ticket"
                                 type: array
+                        application/xml:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Ticket"
+                                type: array
                     description: "Tickets retrieved successfully"
 
 

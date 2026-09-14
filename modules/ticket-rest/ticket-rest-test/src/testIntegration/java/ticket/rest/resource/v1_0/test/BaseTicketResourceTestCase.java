@@ -244,6 +244,82 @@ public abstract class BaseTicketResourceTestCase {
 		return testGraphQLTicket_addTicket();
 	}
 
+	@Test
+	public void testGetTickets() throws Exception {
+		Page<Ticket> page = ticketResource.getTickets();
+
+		long totalCount = page.getTotalCount();
+
+		Ticket ticket1 = testGetTickets_addTicket(randomTicket());
+
+		Ticket ticket2 = testGetTickets_addTicket(randomTicket());
+
+		page = ticketResource.getTickets();
+
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+
+		assertContains(ticket1, (List<Ticket>)page.getItems());
+		assertContains(ticket2, (List<Ticket>)page.getItems());
+		assertValid(page, testGetTickets_getExpectedActions());
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetTickets_getExpectedActions()
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
+	}
+
+	protected Ticket testGetTickets_addTicket(Ticket ticket) throws Exception {
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	@Test
+	public void testGraphQLGetTickets() throws Exception {
+		GraphQLField graphQLField = new GraphQLField(
+			"tickets",
+			new HashMap<String, Object>() {
+				{
+				}
+			},
+			new GraphQLField("items", getGraphQLFields()),
+			new GraphQLField("page"), new GraphQLField("totalCount"));
+
+		// No namespace
+
+		JSONObject ticketsJSONObject = JSONUtil.getValueAsJSONObject(
+			invokeGraphQLQuery(graphQLField), "JSONObject/data",
+			"JSONObject/tickets");
+
+		long totalCount = ticketsJSONObject.getLong("totalCount");
+
+		Ticket ticket1 = testGraphQLGetTickets_addTicket();
+		Ticket ticket2 = testGraphQLGetTickets_addTicket();
+
+		ticketsJSONObject = JSONUtil.getValueAsJSONObject(
+			invokeGraphQLQuery(graphQLField), "JSONObject/data",
+			"JSONObject/tickets");
+
+		Assert.assertEquals(
+			totalCount + 2, ticketsJSONObject.getLong("totalCount"));
+
+		assertContains(
+			ticket1,
+			Arrays.asList(
+				TicketSerDes.toDTOs(ticketsJSONObject.getString("items"))));
+		assertContains(
+			ticket2,
+			Arrays.asList(
+				TicketSerDes.toDTOs(ticketsJSONObject.getString("items"))));
+	}
+
+	protected Ticket testGraphQLGetTickets_addTicket() throws Exception {
+		return testGraphQLTicket_addTicket();
+	}
+
 	protected Ticket testGraphQLTicket_addTicket() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");
