@@ -7,6 +7,7 @@ import org.osgi.service.component.annotations.ServiceScope;
 import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.resource.v1_0.TicketResource;
 import ticket.service.TicketLocalService;
+import com.liferay.portal.vulcan.pagination.Page;
 
 @Component(
 		properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
@@ -18,6 +19,12 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 	public Ticket getTicket(Long ticketId) throws Exception {
 		ticket.model.Ticket serviceBuilderTicket =
 				_ticketLocalService.getTicket(ticketId);
+
+		return _toTicketDTO(serviceBuilderTicket);
+	}
+
+	private Ticket _toTicketDTO(
+			ticket.model.Ticket serviceBuilderTicket) {
 
 		Ticket ticket = new Ticket();
 
