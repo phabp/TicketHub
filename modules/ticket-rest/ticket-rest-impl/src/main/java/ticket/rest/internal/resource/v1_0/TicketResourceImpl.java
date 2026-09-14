@@ -1,5 +1,11 @@
 package ticket.rest.internal.resource.v1_0;
 
+import com.liferay.portal.kernel.dao.orm.QueryUtil;
+import com.liferay.portal.vulcan.pagination.Page;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
@@ -7,7 +13,6 @@ import org.osgi.service.component.annotations.ServiceScope;
 import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.resource.v1_0.TicketResource;
 import ticket.service.TicketLocalService;
-import com.liferay.portal.vulcan.pagination.Page;
 
 @Component(
 		properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
@@ -21,6 +26,22 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 				_ticketLocalService.getTicket(ticketId);
 
 		return _toTicketDTO(serviceBuilderTicket);
+	}
+
+	@Override
+	public Page<Ticket> getTickets() throws Exception {
+		List<ticket.model.Ticket> serviceBuilderTickets =
+				_ticketLocalService.getTickets(
+						QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+
+		List<Ticket> tickets = serviceBuilderTickets.stream(
+		).map(
+				this::_toTicketDTO
+		).collect(
+				Collectors.toList()
+		);
+
+		return Page.of(tickets);
 	}
 
 	private Ticket _toTicketDTO(
