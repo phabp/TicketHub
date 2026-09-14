@@ -30,6 +30,20 @@ components:
             type: object
 
 paths:
+    /tickets:
+        get:
+            operationId: getTickets
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Ticket"
+                                type: array
+                    description: "Tickets retrieved successfully"
+
+
     /tickets/{ticketId}:
         get:
             operationId: getTicket
