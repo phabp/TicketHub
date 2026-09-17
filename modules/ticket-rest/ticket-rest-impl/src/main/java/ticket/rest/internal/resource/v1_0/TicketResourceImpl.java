@@ -44,6 +44,25 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 		return Page.of(tickets);
 	}
 
+	@Override
+	public Page<Ticket> getTicketsByAssignedToUserId(
+			Long assignedToUserId)
+			throws Exception {
+
+		List<ticket.model.Ticket> serviceBuilderTickets =
+				_ticketLocalService.getTicketsByAssignedToUserId(
+						assignedToUserId);
+
+		List<Ticket> tickets = serviceBuilderTickets.stream(
+		).map(
+				this::_toTicketDTO
+		).collect(
+				Collectors.toList()
+		);
+
+		return Page.of(tickets);
+	}
+
 	private Ticket _toTicketDTO(
 			ticket.model.Ticket serviceBuilderTicket) {
 
