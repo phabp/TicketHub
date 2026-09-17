@@ -43,6 +43,9 @@ public interface TicketResource {
 
 	public Page<Ticket> getTickets() throws Exception;
 
+	public Page<Ticket> getTicketsByAssignedToUserId(Long assignedToUserId)
+		throws Exception;
+
 	public default void setContextAcceptLanguage(
 		AcceptLanguage contextAcceptLanguage) {
 	}

@@ -67,6 +67,23 @@ public class Query {
 			ticketResource -> new TicketPage(ticketResource.getTickets()));
 	}
 
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -H 'Content-Type: text/plain; charset=utf-8' -X 'POST' 'http://localhost:8080/o/graphql' -d $'{"query": "query {ticketsByAssignedToUserId(assignedToUserId: ___){items {__}, page, pageSize, totalCount}}"}' -u 'test@liferay.com:test'
+	 */
+	@GraphQLField
+	public TicketPage ticketsByAssignedToUserId(
+			@GraphQLName("assignedToUserId") Long assignedToUserId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> new TicketPage(
+				ticketResource.getTicketsByAssignedToUserId(assignedToUserId)));
+	}
+
 	@GraphQLName("TicketPage")
 	public class TicketPage {
 

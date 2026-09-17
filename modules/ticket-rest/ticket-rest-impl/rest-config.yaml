@@ -6,5 +6,6 @@ application:
     name: "TicketRest"
 author: "me"
 clientDir: "../ticket-rest-client/src/main/java"
+forcePredictableContentApplicationXML: false
 testDir: "../ticket-rest-test/src/testIntegration/java"
 javaEEPackage: "jakarta"

@@ -320,6 +320,85 @@ public abstract class BaseTicketResourceTestCase {
 		return testGraphQLTicket_addTicket();
 	}
 
+	@Test
+	public void testGetTicketsByAssignedToUserId() throws Exception {
+		Long assignedToUserId =
+			testGetTicketsByAssignedToUserId_getAssignedToUserId();
+		Long irrelevantAssignedToUserId =
+			testGetTicketsByAssignedToUserId_getIrrelevantAssignedToUserId();
+
+		Page<Ticket> page = ticketResource.getTicketsByAssignedToUserId(
+			assignedToUserId);
+
+		long totalCount = page.getTotalCount();
+
+		if (irrelevantAssignedToUserId != null) {
+			Ticket irrelevantTicket =
+				testGetTicketsByAssignedToUserId_addTicket(
+					irrelevantAssignedToUserId, randomIrrelevantTicket());
+
+			page = ticketResource.getTicketsByAssignedToUserId(
+				irrelevantAssignedToUserId);
+
+			Assert.assertEquals(totalCount + 1, page.getTotalCount());
+
+			assertContains(irrelevantTicket, (List<Ticket>)page.getItems());
+			assertValid(
+				page,
+				testGetTicketsByAssignedToUserId_getExpectedActions(
+					irrelevantAssignedToUserId));
+		}
+
+		Ticket ticket1 = testGetTicketsByAssignedToUserId_addTicket(
+			assignedToUserId, randomTicket());
+
+		Ticket ticket2 = testGetTicketsByAssignedToUserId_addTicket(
+			assignedToUserId, randomTicket());
+
+		page = ticketResource.getTicketsByAssignedToUserId(assignedToUserId);
+
+		Assert.assertEquals(totalCount + 2, page.getTotalCount());
+
+		assertContains(ticket1, (List<Ticket>)page.getItems());
+		assertContains(ticket2, (List<Ticket>)page.getItems());
+		assertValid(
+			page,
+			testGetTicketsByAssignedToUserId_getExpectedActions(
+				assignedToUserId));
+	}
+
+	protected Map<String, Map<String, String>>
+			testGetTicketsByAssignedToUserId_getExpectedActions(
+				Long assignedToUserId)
+		throws Exception {
+
+		Map<String, Map<String, String>> expectedActions = new HashMap<>();
+
+		return expectedActions;
+	}
+
+	protected Ticket testGetTicketsByAssignedToUserId_addTicket(
+			Long assignedToUserId, Ticket ticket)
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Long testGetTicketsByAssignedToUserId_getAssignedToUserId()
+		throws Exception {
+
+		throw new UnsupportedOperationException(
+			"This method needs to be implemented");
+	}
+
+	protected Long
+			testGetTicketsByAssignedToUserId_getIrrelevantAssignedToUserId()
+		throws Exception {
+
+		return null;
+	}
+
 	protected Ticket testGraphQLTicket_addTicket() throws Exception {
 		throw new UnsupportedOperationException(
 			"This method needs to be implemented");

@@ -80,7 +80,7 @@ public abstract class BaseTicketResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
 	@jakarta.ws.rs.GET
 	@jakarta.ws.rs.Path("/tickets/{ticketId}")
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Ticket getTicket(
 			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
@@ -100,9 +100,37 @@ public abstract class BaseTicketResourceImpl
 	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
 	@jakarta.ws.rs.GET
 	@jakarta.ws.rs.Path("/tickets")
-	@jakarta.ws.rs.Produces({"application/json", "application/xml"})
+	@jakarta.ws.rs.Produces("application/json")
 	@Override
 	public Page<Ticket> getTickets() throws Exception {
+		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'GET' 'http://localhost:8080/o/ticket-rest/v1.0/tickets/by-assignee/{assignedToUserId}'  -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "assignedToUserId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
+	@jakarta.ws.rs.GET
+	@jakarta.ws.rs.Path("/tickets/by-assignee/{assignedToUserId}")
+	@jakarta.ws.rs.Produces("application/json")
+	@Override
+	public Page<Ticket> getTicketsByAssignedToUserId(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("assignedToUserId")
+			Long assignedToUserId)
+		throws Exception {
+
 		return Page.of(Collections.emptyList());
 	}
 

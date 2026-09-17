@@ -76,6 +76,11 @@ public class ServletDataImpl implements ServletData {
 						"query#tickets",
 						new ObjectValuePair<>(
 							TicketResourceImpl.class, "getTickets"));
+					put(
+						"query#ticketsByAssignedToUserId",
+						new ObjectValuePair<>(
+							TicketResourceImpl.class,
+							"getTicketsByAssignedToUserId"));
 				}
 			};
 

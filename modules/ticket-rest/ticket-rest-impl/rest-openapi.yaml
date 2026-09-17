@@ -41,13 +41,7 @@ paths:
                                 items:
                                     $ref: "#/components/schemas/Ticket"
                                 type: array
-                        application/xml:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Ticket"
-                                type: array
                     description: "Tickets retrieved successfully"
-
 
     /tickets/{ticketId}:
         get:
@@ -65,7 +59,24 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Ticket"
-                        application/xml:
-                            schema:
-                                $ref: "#/components/schemas/Ticket"
                     description: "Ticket retrieved successfully"
+
+    /tickets/by-assignee/{assignedToUserId}:
+        get:
+            operationId: getTicketsByAssignedToUserId
+            parameters:
+                - in: path
+                  name: assignedToUserId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Ticket"
+                                type: array
+                    description: "Tickets assigned to the user retrieved successfully"
