@@ -25,6 +25,7 @@ import org.osgi.service.component.ComponentServiceObjects;
 
 import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.dto.v1_0.TicketCreate;
+import ticket.rest.dto.v1_0.TicketUpdate;
 import ticket.rest.resource.v1_0.TicketResource;
 
 /**
@@ -40,6 +41,19 @@ public class Mutation {
 
 		_ticketResourceComponentServiceObjects =
 			ticketResourceComponentServiceObjects;
+	}
+
+	@GraphQLField
+	public Ticket patchTicket(
+			@GraphQLName("ticketId") Long ticketId,
+			@GraphQLName("ticketUpdate") TicketUpdate ticketUpdate)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> ticketResource.patchTicket(
+				ticketId, ticketUpdate));
 	}
 
 	@GraphQLField

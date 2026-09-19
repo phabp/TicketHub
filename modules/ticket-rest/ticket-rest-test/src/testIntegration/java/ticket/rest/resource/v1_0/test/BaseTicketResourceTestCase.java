@@ -401,6 +401,31 @@ public abstract class BaseTicketResourceTestCase {
 	}
 
 	@Test
+	public void testPatchTicket() throws Exception {
+		Ticket postTicket = testPatchTicket_addTicket();
+
+		Ticket randomPatchTicket = randomPatchTicket();
+
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Ticket patchTicket = ticketResource.patchTicket(
+			postTicket.getTicketId(), randomPatchTicket);
+
+		Ticket expectedPatchTicket = postTicket.clone();
+
+		BeanTestUtil.copyProperties(randomPatchTicket, expectedPatchTicket);
+
+		Ticket getTicket = ticketResource.getTicket(patchTicket.getTicketId());
+
+		assertEquals(expectedPatchTicket, getTicket);
+		assertValid(getTicket);
+	}
+
+	protected Ticket testPatchTicket_addTicket() throws Exception {
+		return ticketResource.postSiteTicket(
+			testGroup.getGroupId(), randomTicket());
+	}
+
+	@Test
 	public void testPostSiteTicket() throws Exception {
 		Ticket randomTicket = randomTicket();
 

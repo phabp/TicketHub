@@ -28,6 +28,7 @@ import org.osgi.annotation.versioning.ProviderType;
 
 import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.dto.v1_0.TicketCreate;
+import ticket.rest.dto.v1_0.TicketUpdate;
 
 /**
  * To access this resource, run:
@@ -46,6 +47,9 @@ public interface TicketResource {
 	public Page<Ticket> getTickets() throws Exception;
 
 	public Page<Ticket> getTicketsByAssignedToUserId(Long assignedToUserId)
+		throws Exception;
+
+	public Ticket patchTicket(Long ticketId, TicketUpdate ticketUpdate)
 		throws Exception;
 
 	public Ticket postSiteTicket(Long siteId, TicketCreate ticketCreate)

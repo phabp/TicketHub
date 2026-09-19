@@ -44,6 +44,23 @@ components:
                     type: integer
             type: object
 
+        TicketUpdate:
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                category:
+                    type: string
+                priority:
+                    type: string
+                status:
+                    type: string
+                assignedToUserId:
+                    format: int64
+                    type: integer
+            type: object
+
 paths:
     /tickets:
         get:
@@ -75,6 +92,29 @@ paths:
                             schema:
                                 $ref: "#/components/schemas/Ticket"
                     description: "Ticket retrieved successfully"
+
+        patch:
+            operationId: patchTicket
+            parameters:
+                - in: path
+                  name: ticketId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TicketUpdate"
+                required: true
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Ticket"
+                    description: "Ticket updated successfully"
 
     /tickets/by-assignee/{assignedToUserId}:
         get:

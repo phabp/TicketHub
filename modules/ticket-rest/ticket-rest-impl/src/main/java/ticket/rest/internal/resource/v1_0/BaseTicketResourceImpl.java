@@ -56,6 +56,7 @@ import java.util.Set;
 
 import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.dto.v1_0.TicketCreate;
+import ticket.rest.dto.v1_0.TicketUpdate;
 import ticket.rest.resource.v1_0.TicketResource;
 
 /**
@@ -136,6 +137,36 @@ public abstract class BaseTicketResourceImpl
 		throws Exception {
 
 		return Page.of(Collections.emptyList());
+	}
+
+	/**
+	 * Invoke this method with the command line:
+	 *
+	 * curl -X 'PATCH' 'http://localhost:8080/o/ticket-rest/v1.0/tickets/{ticketId}' -d $'{"assignedToUserId": ___, "category": ___, "description": ___, "priority": ___, "status": ___, "title": ___}' --header 'Content-Type: application/json' -u 'test@liferay.com:test'
+	 */
+	@io.swagger.v3.oas.annotations.Parameters(
+		value = {
+			@io.swagger.v3.oas.annotations.Parameter(
+				in = io.swagger.v3.oas.annotations.enums.ParameterIn.PATH,
+				name = "ticketId"
+			)
+		}
+	)
+	@io.swagger.v3.oas.annotations.tags.Tags(value = {})
+	@jakarta.ws.rs.Consumes("application/json")
+	@jakarta.ws.rs.PATCH
+	@jakarta.ws.rs.Path("/tickets/{ticketId}")
+	@jakarta.ws.rs.Produces("application/json")
+	@Override
+	public Ticket patchTicket(
+			@io.swagger.v3.oas.annotations.Parameter(hidden = true)
+			@jakarta.validation.constraints.NotNull
+			@jakarta.ws.rs.PathParam("ticketId")
+			Long ticketId,
+			TicketUpdate ticketUpdate)
+		throws Exception {
+
+		return new Ticket();
 	}
 
 	/**
@@ -276,7 +307,7 @@ public abstract class BaseTicketResourceImpl
 	}
 
 	public Set<String> getAvailableUpdateStrategies() {
-		return SetUtil.fromArray();
+		return SetUtil.fromArray("PARTIAL_UPDATE");
 	}
 
 	@Override
@@ -334,8 +365,35 @@ public abstract class BaseTicketResourceImpl
 			Collection<Ticket> tickets, Map<String, Serializable> parameters)
 		throws Exception {
 
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		UnsafeFunction<Ticket, Ticket, Exception> ticketUnsafeFunction = null;
+
+		String updateStrategy = (String)parameters.getOrDefault(
+			"updateStrategy", "UPDATE");
+
+		if (StringUtil.equalsIgnoreCase(updateStrategy, "PARTIAL_UPDATE")) {
+			ticketUnsafeFunction = ticket -> patchTicket(
+				ticket.getTicketId(),
+				(TicketUpdate)parameters.get("ticketUpdate"));
+		}
+
+		if (ticketUnsafeFunction == null) {
+			throw new NotSupportedException(
+				"Update strategy \"" + updateStrategy +
+					"\" is not supported for Ticket");
+		}
+
+		if (contextBatchUnsafeBiConsumer != null) {
+			contextBatchUnsafeBiConsumer.accept(tickets, ticketUnsafeFunction);
+		}
+		else if (contextBatchUnsafeConsumer != null) {
+			contextBatchUnsafeConsumer.accept(
+				tickets, ticketUnsafeFunction::apply);
+		}
+		else {
+			for (Ticket ticket : tickets) {
+				ticketUnsafeFunction.apply(ticket);
+			}
+		}
 	}
 
 	@Override
