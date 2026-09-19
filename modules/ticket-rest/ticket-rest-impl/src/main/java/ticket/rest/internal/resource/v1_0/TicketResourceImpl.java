@@ -11,6 +11,7 @@ import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
 import ticket.rest.dto.v1_0.Ticket;
+import ticket.rest.dto.v1_0.TicketCreate;
 import ticket.rest.resource.v1_0.TicketResource;
 import ticket.service.TicketLocalService;
 
@@ -63,6 +64,25 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 		return Page.of(tickets);
 	}
 
+	@Override
+	public Ticket postSiteTicket(
+			Long siteId, TicketCreate ticketCreate)
+			throws Exception {
+
+		ticket.model.Ticket serviceBuilderTicket =
+				_ticketLocalService.addTicket(
+						siteId,
+						contextUser.getUserId(),
+						ticketCreate.getTitle(),
+						ticketCreate.getDescription(),
+						ticketCreate.getCategory(),
+						ticketCreate.getPriority(),
+						ticketCreate.getAssignedToUserId());
+
+		return _toTicketDTO(serviceBuilderTicket);
+	}
+
+
 	private Ticket _toTicketDTO(
 			ticket.model.Ticket serviceBuilderTicket) {
 
@@ -79,6 +99,7 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 
 		return ticket;
 	}
+
 
 	@Reference
 	private TicketLocalService _ticketLocalService;
