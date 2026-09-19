@@ -14,6 +14,7 @@ import ticket.rest.dto.v1_0.Ticket;
 import ticket.rest.dto.v1_0.TicketCreate;
 import ticket.rest.resource.v1_0.TicketResource;
 import ticket.service.TicketLocalService;
+import ticket.rest.dto.v1_0.TicketUpdate;
 
 @Component(
 		properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
@@ -82,6 +83,34 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 		return _toTicketDTO(serviceBuilderTicket);
 	}
 
+	@Override
+	public Ticket patchTicket(
+			Long ticketId, TicketUpdate ticketUpdate)
+			throws Exception {
+
+		ticket.model.Ticket existingTicket =
+				_ticketLocalService.getTicket(ticketId);
+
+		ticket.model.Ticket serviceBuilderTicket =
+				_ticketLocalService.updateTicket(
+						ticketId,
+						ticketUpdate.getTitle() != null ?
+								ticketUpdate.getTitle() : existingTicket.getTitle(),
+						ticketUpdate.getDescription() != null ?
+								ticketUpdate.getDescription() :
+								existingTicket.getDescription(),
+						ticketUpdate.getCategory() != null ?
+								ticketUpdate.getCategory() : existingTicket.getCategory(),
+						ticketUpdate.getPriority() != null ?
+								ticketUpdate.getPriority() : existingTicket.getPriority(),
+						ticketUpdate.getStatus() != null ?
+								ticketUpdate.getStatus() : existingTicket.getStatus(),
+						ticketUpdate.getAssignedToUserId() != null ?
+								ticketUpdate.getAssignedToUserId() :
+								existingTicket.getAssignedToUserId());
+
+		return _toTicketDTO(serviceBuilderTicket);
+	}
 
 	private Ticket _toTicketDTO(
 			ticket.model.Ticket serviceBuilderTicket) {
