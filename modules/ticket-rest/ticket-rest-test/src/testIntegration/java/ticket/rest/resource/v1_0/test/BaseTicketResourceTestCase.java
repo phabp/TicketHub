@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
@@ -191,8 +192,8 @@ public abstract class BaseTicketResourceTestCase {
 	}
 
 	protected Ticket testGetTicket_addTicket() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return ticketResource.postSiteTicket(
+			testGroup.getGroupId(), randomTicket());
 	}
 
 	@Test
@@ -399,9 +400,128 @@ public abstract class BaseTicketResourceTestCase {
 		return null;
 	}
 
+	@Test
+	public void testPostSiteTicket() throws Exception {
+		Ticket randomTicket = randomTicket();
+
+		Ticket postTicket = testPostSiteTicket_addTicket(randomTicket);
+
+		assertEquals(randomTicket, postTicket);
+		assertValid(postTicket);
+	}
+
+	protected Ticket testPostSiteTicket_addTicket(Ticket ticket)
+		throws Exception {
+
+		return ticketResource.postSiteTicket(
+			testGetSiteTicket_getSiteId(ticket));
+	}
+
+	@Test
+	public void testGraphQLPostSiteTicket() throws Exception {
+		Ticket randomTicket = randomTicket();
+
+		Ticket ticket = testGraphQLTicket_addTicket(randomTicket);
+
+		Assert.assertTrue(equals(randomTicket, ticket));
+	}
+
+	protected void appendGraphQLFieldValue(StringBuilder sb, Object value)
+		throws Exception {
+
+		if (value instanceof Object[]) {
+			StringBuilder arraySB = new StringBuilder("[");
+
+			for (Object object : (Object[])value) {
+				if (arraySB.length() > 1) {
+					arraySB.append(", ");
+				}
+
+				arraySB.append("{");
+
+				Class<?> clazz = object.getClass();
+
+				for (java.lang.reflect.Field field :
+						getDeclaredFields(clazz.getSuperclass())) {
+
+					arraySB.append(field.getName());
+					arraySB.append(": ");
+
+					appendGraphQLFieldValue(arraySB, field.get(object));
+
+					arraySB.append(", ");
+				}
+
+				arraySB.setLength(arraySB.length() - 2);
+
+				arraySB.append("}");
+			}
+
+			arraySB.append("]");
+
+			sb.append(arraySB.toString());
+		}
+		else if (value instanceof String) {
+			sb.append("\"");
+			sb.append(value);
+			sb.append("\"");
+		}
+		else {
+			sb.append(value);
+		}
+	}
+
 	protected Ticket testGraphQLTicket_addTicket() throws Exception {
-		throw new UnsupportedOperationException(
-			"This method needs to be implemented");
+		return testGraphQLTicket_addTicket(randomTicket());
+	}
+
+	protected Ticket testGraphQLTicket_addTicket(Ticket ticket)
+		throws Exception {
+
+		JSONDeserializer<Ticket> jsonDeserializer =
+			JSONFactoryUtil.createJSONDeserializer();
+
+		StringBuilder sb = new StringBuilder("{");
+
+		for (java.lang.reflect.Field field : getDeclaredFields(Ticket.class)) {
+			if (!ArrayUtil.contains(
+					getAdditionalAssertFieldNames(), field.getName())) {
+
+				continue;
+			}
+
+			if (sb.length() > 1) {
+				sb.append(", ");
+			}
+
+			sb.append(field.getName());
+			sb.append(": ");
+
+			appendGraphQLFieldValue(sb, field.get(ticket));
+		}
+
+		sb.append("}");
+
+		List<GraphQLField> graphQLFields = getGraphQLFields();
+
+		graphQLFields.add(new GraphQLField("ticketId"));
+
+		return jsonDeserializer.deserialize(
+			JSONUtil.getValueAsString(
+				invokeGraphQLMutation(
+					new GraphQLField(
+						"createSiteTicket",
+						new HashMap<String, Object>() {
+							{
+								put(
+									"siteKey",
+									"\"" + testGroup.getGroupId() + "\"");
+								put("ticket", sb.toString());
+							}
+						},
+						graphQLFields)),
+				"JSONObject/data", "JSONObject/createSiteTicket"),
+			Ticket.class);
 	}
 
 	protected void assertContains(Ticket ticket, List<Ticket> tickets) {

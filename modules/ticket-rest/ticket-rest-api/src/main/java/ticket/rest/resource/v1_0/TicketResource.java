@@ -16,6 +16,7 @@ import jakarta.annotation.Generated;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.Collections;
@@ -26,6 +27,7 @@ import java.util.Map;
 import org.osgi.annotation.versioning.ProviderType;
 
 import ticket.rest.dto.v1_0.Ticket;
+import ticket.rest.dto.v1_0.TicketCreate;
 
 /**
  * To access this resource, run:
@@ -44,6 +46,14 @@ public interface TicketResource {
 	public Page<Ticket> getTickets() throws Exception;
 
 	public Page<Ticket> getTicketsByAssignedToUserId(Long assignedToUserId)
+		throws Exception;
+
+	public Ticket postSiteTicket(Long siteId, TicketCreate ticketCreate)
+		throws Exception;
+
+	public Response postSiteTicketBatch(
+			Long siteId, TicketCreate ticketCreate, String callbackURL,
+			Object object)
 		throws Exception;
 
 	public default void setContextAcceptLanguage(

@@ -29,6 +29,21 @@ components:
                     type: integer
             type: object
 
+        TicketCreate:
+            properties:
+                title:
+                    type: string
+                description:
+                    type: string
+                category:
+                    type: string
+                priority:
+                    type: string
+                assignedToUserId:
+                    format: int64
+                    type: integer
+            type: object
+
 paths:
     /tickets:
         get:
@@ -80,3 +95,27 @@ paths:
                                     $ref: "#/components/schemas/Ticket"
                                 type: array
                     description: "Tickets assigned to the user retrieved successfully"
+
+    /sites/{siteId}/tickets:
+        post:
+            operationId: postSiteTicket
+            parameters:
+                - in: path
+                  name: siteId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TicketCreate"
+                required: true
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Ticket"
+                    description: "Ticket created successfully"

@@ -5,17 +5,27 @@ import com.liferay.petra.function.UnsafeFunction;
 import com.liferay.portal.kernel.service.GroupLocalService;
 import com.liferay.portal.kernel.service.RoleLocalService;
 import com.liferay.portal.vulcan.accept.language.AcceptLanguage;
+import com.liferay.portal.vulcan.batch.engine.resource.VulcanBatchEngineImportTaskResource;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLField;
+import com.liferay.portal.vulcan.graphql.annotation.GraphQLName;
 
 import jakarta.annotation.Generated;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import jakarta.validation.constraints.NotEmpty;
+
+import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 
 import java.util.function.BiFunction;
 
 import org.osgi.service.component.ComponentServiceObjects;
+
+import ticket.rest.dto.v1_0.Ticket;
+import ticket.rest.dto.v1_0.TicketCreate;
+import ticket.rest.resource.v1_0.TicketResource;
 
 /**
  * @author me
@@ -23,6 +33,42 @@ import org.osgi.service.component.ComponentServiceObjects;
  */
 @Generated("")
 public class Mutation {
+
+	public static void setTicketResourceComponentServiceObjects(
+		ComponentServiceObjects<TicketResource>
+			ticketResourceComponentServiceObjects) {
+
+		_ticketResourceComponentServiceObjects =
+			ticketResourceComponentServiceObjects;
+	}
+
+	@GraphQLField
+	public Ticket createSiteTicket(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("ticketCreate") TicketCreate ticketCreate)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> ticketResource.postSiteTicket(
+				Long.valueOf(siteKey), ticketCreate));
+	}
+
+	@GraphQLField
+	public Response createSiteTicketBatch(
+			@GraphQLName("siteKey") @NotEmpty String siteKey,
+			@GraphQLName("ticketCreate") TicketCreate ticketCreate,
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> ticketResource.postSiteTicketBatch(
+				Long.valueOf(siteKey), ticketCreate, callbackURL, object));
+	}
 
 	private <T, R, E1 extends Throwable, E2 extends Throwable> R
 			_applyComponentServiceObjects(
@@ -62,6 +108,25 @@ public class Mutation {
 		}
 	}
 
+	private void _populateResourceContext(TicketResource ticketResource)
+		throws Exception {
+
+		ticketResource.setContextAcceptLanguage(_acceptLanguage);
+		ticketResource.setContextCompany(_company);
+		ticketResource.setContextHttpServletRequest(_httpServletRequest);
+		ticketResource.setContextHttpServletResponse(_httpServletResponse);
+		ticketResource.setContextUriInfo(_uriInfo);
+		ticketResource.setContextUser(_user);
+		ticketResource.setGroupLocalService(_groupLocalService);
+		ticketResource.setRoleLocalService(_roleLocalService);
+
+		ticketResource.setVulcanBatchEngineImportTaskResource(
+			_vulcanBatchEngineImportTaskResource);
+	}
+
+	private static ComponentServiceObjects<TicketResource>
+		_ticketResourceComponentServiceObjects;
+
 	private AcceptLanguage _acceptLanguage;
 	private com.liferay.portal.kernel.model.Company _company;
 	private GroupLocalService _groupLocalService;
@@ -72,5 +137,7 @@ public class Mutation {
 		_sortsBiFunction;
 	private UriInfo _uriInfo;
 	private com.liferay.portal.kernel.model.User _user;
+	private VulcanBatchEngineImportTaskResource
+		_vulcanBatchEngineImportTaskResource;
 
 }

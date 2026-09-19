@@ -30,6 +30,9 @@ public class ServletDataImpl implements ServletData {
 
 	@Activate
 	public void activate(BundleContext bundleContext) {
+		Mutation.setTicketResourceComponentServiceObjects(
+			_ticketResourceComponentServiceObjects);
+
 		Query.setTicketResourceComponentServiceObjects(
 			_ticketResourceComponentServiceObjects);
 	}
@@ -68,6 +71,15 @@ public class ServletDataImpl implements ServletData {
 		_resourceMethodObjectValuePairs =
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
+					put(
+						"mutation#createSiteTicket",
+						new ObjectValuePair<>(
+							TicketResourceImpl.class, "postSiteTicket"));
+					put(
+						"mutation#createSiteTicketBatch",
+						new ObjectValuePair<>(
+							TicketResourceImpl.class, "postSiteTicketBatch"));
+
 					put(
 						"query#ticket",
 						new ObjectValuePair<>(
