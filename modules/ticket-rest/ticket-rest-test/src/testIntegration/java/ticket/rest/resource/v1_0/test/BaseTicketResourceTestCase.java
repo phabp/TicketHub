@@ -10,6 +10,7 @@ import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 
 import com.liferay.petra.reflect.ReflectionUtil;
 import com.liferay.petra.string.StringBundler;
+import com.liferay.portal.kernel.json.JSONArray;
 import com.liferay.portal.kernel.json.JSONDeserializer;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
@@ -182,6 +183,63 @@ public abstract class BaseTicketResourceTestCase {
 	}
 
 	@Test
+	public void testDeleteTicket() throws Exception {
+		@SuppressWarnings("PMD.UnusedLocalVariable")
+		Ticket ticket = testDeleteTicket_addTicket();
+
+		assertHttpResponseStatusCode(
+			204, ticketResource.deleteTicketHttpResponse(ticket.getTicketId()));
+
+		assertHttpResponseStatusCode(
+			404, ticketResource.getTicketHttpResponse(ticket.getTicketId()));
+		assertHttpResponseStatusCode(
+			404, ticketResource.getTicketHttpResponse(0L));
+	}
+
+	protected Ticket testDeleteTicket_addTicket() throws Exception {
+		return ticketResource.postSiteTicket(
+			testGroup.getGroupId(), randomTicket());
+	}
+
+	@Test
+	public void testGraphQLDeleteTicket() throws Exception {
+
+		// No namespace
+
+		Ticket ticket1 = testGraphQLDeleteTicket_addTicket();
+
+		Assert.assertTrue(
+			JSONUtil.getValueAsBoolean(
+				invokeGraphQLMutation(
+					new GraphQLField(
+						"deleteTicket",
+						new HashMap<String, Object>() {
+							{
+								put("ticketId", ticket1.getTicketId());
+							}
+						})),
+				"JSONObject/data", "Object/deleteTicket"));
+
+		JSONArray errorsJSONArray1 = JSONUtil.getValueAsJSONArray(
+			invokeGraphQLQuery(
+				new GraphQLField(
+					"ticket",
+					new HashMap<String, Object>() {
+						{
+							put("ticketId", ticket1.getTicketId());
+						}
+					},
+					new GraphQLField("ticketId"))),
+			"JSONArray/errors");
+
+		Assert.assertTrue(errorsJSONArray1.length() > 0);
+	}
+
+	protected Ticket testGraphQLDeleteTicket_addTicket() throws Exception {
+		return testGraphQLTicket_addTicket();
+	}
+
+	@Test
 	public void testGetTicket() throws Exception {
 		Ticket postTicket = testGetTicket_addTicket();
 
@@ -262,6 +320,10 @@ public abstract class BaseTicketResourceTestCase {
 		assertContains(ticket1, (List<Ticket>)page.getItems());
 		assertContains(ticket2, (List<Ticket>)page.getItems());
 		assertValid(page, testGetTickets_getExpectedActions());
+
+		ticketResource.deleteTicket(ticket1.getTicketId());
+
+		ticketResource.deleteTicket(ticket2.getTicketId());
 	}
 
 	protected Map<String, Map<String, String>>
@@ -366,6 +428,10 @@ public abstract class BaseTicketResourceTestCase {
 			page,
 			testGetTicketsByAssignedToUserId_getExpectedActions(
 				assignedToUserId));
+
+		ticketResource.deleteTicket(ticket1.getTicketId());
+
+		ticketResource.deleteTicket(ticket2.getTicketId());
 	}
 
 	protected Map<String, Map<String, String>>

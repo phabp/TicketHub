@@ -72,6 +72,14 @@ public class ServletDataImpl implements ServletData {
 			new HashMap<String, ObjectValuePair<Class<?>, String>>() {
 				{
 					put(
+						"mutation#deleteTicket",
+						new ObjectValuePair<>(
+							TicketResourceImpl.class, "deleteTicket"));
+					put(
+						"mutation#deleteTicketBatch",
+						new ObjectValuePair<>(
+							TicketResourceImpl.class, "deleteTicketBatch"));
+					put(
 						"mutation#patchTicket",
 						new ObjectValuePair<>(
 							TicketResourceImpl.class, "patchTicket"));

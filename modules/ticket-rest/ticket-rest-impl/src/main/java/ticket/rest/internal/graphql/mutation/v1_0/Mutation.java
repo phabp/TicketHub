@@ -44,6 +44,29 @@ public class Mutation {
 	}
 
 	@GraphQLField
+	public Response deleteTicket(@GraphQLName("ticketId") Long ticketId)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> ticketResource.deleteTicket(ticketId));
+	}
+
+	@GraphQLField
+	public Response deleteTicketBatch(
+			@GraphQLName("callbackURL") String callbackURL,
+			@GraphQLName("object") Object object)
+		throws Exception {
+
+		return _applyComponentServiceObjects(
+			_ticketResourceComponentServiceObjects,
+			this::_populateResourceContext,
+			ticketResource -> ticketResource.deleteTicketBatch(
+				callbackURL, object));
+	}
+
+	@GraphQLField
 	public Ticket patchTicket(
 			@GraphQLName("ticketId") Long ticketId,
 			@GraphQLName("ticketUpdate") TicketUpdate ticketUpdate)

@@ -42,6 +42,11 @@ import ticket.rest.dto.v1_0.TicketUpdate;
 @ProviderType
 public interface TicketResource {
 
+	public Response deleteTicket(Long ticketId) throws Exception;
+
+	public Response deleteTicketBatch(String callbackURL, Object object)
+		throws Exception;
+
 	public Ticket getTicket(Long ticketId) throws Exception;
 
 	public Page<Ticket> getTickets() throws Exception;

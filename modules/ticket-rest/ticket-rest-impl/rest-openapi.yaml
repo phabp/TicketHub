@@ -116,6 +116,22 @@ paths:
                                 $ref: "#/components/schemas/Ticket"
                     description: "Ticket updated successfully"
 
+        delete:
+            operationId: deleteTicket
+            parameters:
+                - in: path
+                  name: ticketId
+                  required: true
+                  schema:
+                      format: int64
+                      type: integer
+            responses:
+                "204":
+                    description: "Ticket deleted successfully"
+            tags: [ "Ticket" ]
+
+
+
     /tickets/by-assignee/{assignedToUserId}:
         get:
             operationId: getTicketsByAssignedToUserId
