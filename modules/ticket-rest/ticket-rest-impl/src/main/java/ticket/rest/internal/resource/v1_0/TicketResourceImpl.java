@@ -15,6 +15,8 @@ import ticket.rest.dto.v1_0.TicketCreate;
 import ticket.rest.resource.v1_0.TicketResource;
 import ticket.service.TicketLocalService;
 import ticket.rest.dto.v1_0.TicketUpdate;
+import jakarta.ws.rs.core.Response;
+import ticket.exception.TicketClosedException;
 
 @Component(
 		properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
@@ -110,6 +112,22 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 								existingTicket.getAssignedToUserId());
 
 		return _toTicketDTO(serviceBuilderTicket);
+	}
+
+	@Override
+	public Response deleteTicket(Long ticketId) throws Exception {
+		try {
+			_ticketLocalService.deleteTicket(ticketId);
+
+			return Response.noContent().build();
+		}
+		catch (TicketClosedException ticketClosedException) {
+			return Response.status(
+					Response.Status.CONFLICT
+			).entity(
+					ticketClosedException.getMessage()
+			).build();
+		}
 	}
 
 	private Ticket _toTicketDTO(
