@@ -13,6 +13,7 @@ import java.util.List;
 import org.osgi.service.component.annotations.Component;
 import ticket.model.Ticket;
 import ticket.service.base.TicketLocalServiceBaseImpl;
+import ticket.exception.TicketClosedException;
 
 
 /**
@@ -84,8 +85,7 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 		Ticket ticket = getTicket(ticketId);
 
 		if ("CLOSED".equals(ticket.getStatus())) {
-			throw new PortalException(
-					"IMPORTANT: A closed ticket cannot be deleted, for record reasons!");
+			throw new TicketClosedException();
 		}
 
 		return deleteTicket(ticket);
