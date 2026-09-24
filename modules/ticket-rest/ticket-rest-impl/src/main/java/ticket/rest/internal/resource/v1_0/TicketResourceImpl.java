@@ -3,6 +3,8 @@ package ticket.rest.internal.resource.v1_0;
 import com.liferay.portal.kernel.dao.orm.QueryUtil;
 import com.liferay.portal.vulcan.pagination.Page;
 
+import jakarta.ws.rs.core.Response;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -10,24 +12,25 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.Reference;
 import org.osgi.service.component.annotations.ServiceScope;
 
-import ticket.rest.dto.v1_0.Ticket;
-import ticket.rest.dto.v1_0.TicketCreate;
-import ticket.rest.resource.v1_0.TicketResource;
-import ticket.service.TicketLocalService;
-import ticket.rest.dto.v1_0.TicketUpdate;
-import jakarta.ws.rs.core.Response;
 import ticket.exception.TicketClosedException;
 
+import ticket.rest.dto.v1_0.Ticket;
+import ticket.rest.dto.v1_0.TicketCreate;
+import ticket.rest.dto.v1_0.TicketUpdate;
+import ticket.rest.resource.v1_0.TicketResource;
+
+import ticket.service.TicketLocalService;
+
 @Component(
-		properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
-		scope = ServiceScope.PROTOTYPE, service = TicketResource.class
+	properties = "OSGI-INF/liferay/rest/v1_0/ticket.properties",
+	scope = ServiceScope.PROTOTYPE, service = TicketResource.class
 )
 public class TicketResourceImpl extends BaseTicketResourceImpl {
 
 	@Override
 	public Ticket getTicket(Long ticketId) throws Exception {
 		ticket.model.Ticket serviceBuilderTicket =
-				_ticketLocalService.getTicket(ticketId);
+			_ticketLocalService.getTicket(ticketId);
 
 		return _toTicketDTO(serviceBuilderTicket);
 	}
@@ -35,81 +38,73 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 	@Override
 	public Page<Ticket> getTickets() throws Exception {
 		List<ticket.model.Ticket> serviceBuilderTickets =
-				_ticketLocalService.getTickets(
-						QueryUtil.ALL_POS, QueryUtil.ALL_POS);
+			_ticketLocalService.getTickets(
+				QueryUtil.ALL_POS, QueryUtil.ALL_POS);
 
 		List<Ticket> tickets = serviceBuilderTickets.stream(
 		).map(
-				this::_toTicketDTO
+			this::_toTicketDTO
 		).collect(
-				Collectors.toList()
+			Collectors.toList()
 		);
 
 		return Page.of(tickets);
 	}
 
 	@Override
-	public Page<Ticket> getTicketsByAssignedToUserId(
-			Long assignedToUserId)
-			throws Exception {
+	public Page<Ticket> getTicketsByAssignedToUserId(Long assignedToUserId)
+		throws Exception {
 
 		List<ticket.model.Ticket> serviceBuilderTickets =
-				_ticketLocalService.getTicketsByAssignedToUserId(
-						assignedToUserId);
+			_ticketLocalService.getTicketsByAssignedToUserId(assignedToUserId);
 
 		List<Ticket> tickets = serviceBuilderTickets.stream(
 		).map(
-				this::_toTicketDTO
+			this::_toTicketDTO
 		).collect(
-				Collectors.toList()
+			Collectors.toList()
 		);
 
 		return Page.of(tickets);
 	}
 
 	@Override
-	public Ticket postSiteTicket(
-			Long siteId, TicketCreate ticketCreate)
-			throws Exception {
+	public Ticket postSiteTicket(Long siteId, TicketCreate ticketCreate)
+		throws Exception {
 
 		ticket.model.Ticket serviceBuilderTicket =
-				_ticketLocalService.addTicket(
-						siteId,
-						contextUser.getUserId(),
-						ticketCreate.getTitle(),
-						ticketCreate.getDescription(),
-						ticketCreate.getCategory(),
-						ticketCreate.getPriority(),
-						ticketCreate.getAssignedToUserId());
+			_ticketLocalService.addTicket(
+				siteId, contextUser.getUserId(), ticketCreate.getTitle(),
+				ticketCreate.getDescription(), ticketCreate.getCategory(),
+				ticketCreate.getPriority(), ticketCreate.getAssignedToUserId());
 
 		return _toTicketDTO(serviceBuilderTicket);
 	}
 
 	@Override
-	public Ticket patchTicket(
-			Long ticketId, TicketUpdate ticketUpdate)
-			throws Exception {
+	public Ticket patchTicket(Long ticketId, TicketUpdate ticketUpdate)
+		throws Exception {
 
-		ticket.model.Ticket existingTicket =
-				_ticketLocalService.getTicket(ticketId);
+		ticket.model.Ticket existingTicket = _ticketLocalService.getTicket(
+			ticketId);
 
 		ticket.model.Ticket serviceBuilderTicket =
-				_ticketLocalService.updateTicket(
-						ticketId,
-						ticketUpdate.getTitle() != null ?
-								ticketUpdate.getTitle() : existingTicket.getTitle(),
-						ticketUpdate.getDescription() != null ?
-								ticketUpdate.getDescription() :
-								existingTicket.getDescription(),
-						ticketUpdate.getCategory() != null ?
-								ticketUpdate.getCategory() : existingTicket.getCategory(),
-						ticketUpdate.getPriority() != null ?
-								ticketUpdate.getPriority() : existingTicket.getPriority(),
-						ticketUpdate.getStatus() != null ?
-								ticketUpdate.getStatus() : existingTicket.getStatus(),
-						ticketUpdate.getAssignedToUserId() != null ?
-								ticketUpdate.getAssignedToUserId() :
-								existingTicket.getAssignedToUserId());
+			_ticketLocalService.updateTicket(
+				ticketId,
+				ticketUpdate.getTitle() != null ? ticketUpdate.getTitle() :
+					existingTicket.getTitle(),
+				ticketUpdate.getDescription() != null ?
+					ticketUpdate.getDescription() :
+						existingTicket.getDescription(),
+				ticketUpdate.getCategory() != null ?
+					ticketUpdate.getCategory() : existingTicket.getCategory(),
+				ticketUpdate.getPriority() != null ?
+					ticketUpdate.getPriority() : existingTicket.getPriority(),
+				ticketUpdate.getStatus() != null ? ticketUpdate.getStatus() :
+					existingTicket.getStatus(),
+				ticketUpdate.getAssignedToUserId() != null ?
+					ticketUpdate.getAssignedToUserId() :
+						existingTicket.getAssignedToUserId());
 
 		return _toTicketDTO(serviceBuilderTicket);
 	}
@@ -119,20 +114,19 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 		try {
 			_ticketLocalService.deleteTicket(ticketId);
 
-			return Response.noContent().build();
+			return Response.noContent(
+			).build();
 		}
 		catch (TicketClosedException ticketClosedException) {
 			return Response.status(
-					Response.Status.CONFLICT
+				Response.Status.CONFLICT
 			).entity(
-					ticketClosedException.getMessage()
+				ticketClosedException.getMessage()
 			).build();
 		}
 	}
 
-	private Ticket _toTicketDTO(
-			ticket.model.Ticket serviceBuilderTicket) {
-
+	private Ticket _toTicketDTO(ticket.model.Ticket serviceBuilderTicket) {
 		Ticket ticket = new Ticket();
 
 		ticket.setTicketId(serviceBuilderTicket.getTicketId());
@@ -141,12 +135,10 @@ public class TicketResourceImpl extends BaseTicketResourceImpl {
 		ticket.setCategory(serviceBuilderTicket.getCategory());
 		ticket.setPriority(serviceBuilderTicket.getPriority());
 		ticket.setStatus(serviceBuilderTicket.getStatus());
-		ticket.setAssignedToUserId(
-				serviceBuilderTicket.getAssignedToUserId());
+		ticket.setAssignedToUserId(serviceBuilderTicket.getAssignedToUserId());
 
 		return ticket;
 	}
-
 
 	@Reference
 	private TicketLocalService _ticketLocalService;

@@ -1,167 +1,74 @@
-info:
-    description: "TicketRest REST API"
-    license:
-        name: "Apache 2.0"
-        url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-    title: "TicketRest"
-    version: v1.0
-openapi: 3.0.1
-
 components:
     schemas:
         Ticket:
             properties:
+                assignedToUserId:
+                    format: int64
+                    type: integer
+                category:
+                    type: string
+                description:
+                    type: string
+                priority:
+                    type: string
+                status:
+                    type: string
                 ticketId:
                     format: int64
                     type: integer
                 title:
                     type: string
-                description:
-                    type: string
-                category:
-                    type: string
-                priority:
-                    type: string
-                status:
-                    type: string
-                assignedToUserId:
-                    format: int64
-                    type: integer
             type: object
-
         TicketCreate:
             properties:
-                title:
-                    type: string
-                description:
-                    type: string
-                category:
-                    type: string
-                priority:
-                    type: string
                 assignedToUserId:
                     format: int64
                     type: integer
-            type: object
-
-        TicketUpdate:
-            properties:
-                title:
+                category:
                     type: string
                 description:
                     type: string
+                priority:
+                    type: string
+                title:
+                    type: string
+            type: object
+        TicketUpdate:
+            properties:
+                assignedToUserId:
+                    format: int64
+                    type: integer
                 category:
+                    type: string
+                description:
                     type: string
                 priority:
                     type: string
                 status:
                     type: string
-                assignedToUserId:
-                    format: int64
-                    type: integer
+                title:
+                    type: string
             type: object
-
+info:
+    description:
+        "TicketRest REST API"
+    license:
+        name: Apache 2.0
+        url: http://www.apache.org/licenses/LICENSE-2.0.html
+    title: TicketRest
+    version: v1.0
+openapi: 3.0.1
 paths:
-    /tickets:
-        get:
-            operationId: getTickets
-            responses:
-                "200":
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Ticket"
-                                type: array
-                    description: "Tickets retrieved successfully"
-
-    /tickets/{ticketId}:
-        get:
-            operationId: getTicket
-            parameters:
-                - in: path
-                  name: ticketId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                "200":
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Ticket"
-                    description: "Ticket retrieved successfully"
-
-        patch:
-            operationId: patchTicket
-            parameters:
-                - in: path
-                  name: ticketId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            requestBody:
-                content:
-                    application/json:
-                        schema:
-                            $ref: "#/components/schemas/TicketUpdate"
-                required: true
-            responses:
-                "200":
-                    content:
-                        application/json:
-                            schema:
-                                $ref: "#/components/schemas/Ticket"
-                    description: "Ticket updated successfully"
-
-        delete:
-            operationId: deleteTicket
-            parameters:
-                - in: path
-                  name: ticketId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                "204":
-                    description: "Ticket deleted successfully"
-            tags: [ "Ticket" ]
-
-
-
-    /tickets/by-assignee/{assignedToUserId}:
-        get:
-            operationId: getTicketsByAssignedToUserId
-            parameters:
-                - in: path
-                  name: assignedToUserId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
-            responses:
-                "200":
-                    content:
-                        application/json:
-                            schema:
-                                items:
-                                    $ref: "#/components/schemas/Ticket"
-                                type: array
-                    description: "Tickets assigned to the user retrieved successfully"
-
     /sites/{siteId}/tickets:
         post:
             operationId: postSiteTicket
             parameters:
-                - in: path
-                  name: siteId
-                  required: true
-                  schema:
-                      format: int64
-                      type: integer
+                -   in: path
+                    name: siteId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
             requestBody:
                 content:
                     application/json:
@@ -174,4 +81,93 @@ paths:
                         application/json:
                             schema:
                                 $ref: "#/components/schemas/Ticket"
-                    description: "Ticket created successfully"
+                    description:
+                        "Ticket created successfully"
+    /tickets:
+        get:
+            operationId: getTickets
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Ticket"
+                                type: array
+                    description:
+                        "Tickets retrieved successfully"
+    /tickets/by-assignee/{assignedToUserId}:
+        get:
+            operationId: getTicketsByAssignedToUserId
+            parameters:
+                -   in: path
+                    name: assignedToUserId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                items:
+                                    $ref: "#/components/schemas/Ticket"
+                                type: array
+                    description:
+                        "Tickets assigned to the user retrieved successfully"
+    /tickets/{ticketId}:
+        delete:
+            operationId: deleteTicket
+            parameters:
+                -   in: path
+                    name: ticketId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+            responses:
+                "204":
+                    description:
+                        "Ticket deleted successfully"
+            tags: ["Ticket"]
+        get:
+            operationId: getTicket
+            parameters:
+                -   in: path
+                    name: ticketId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Ticket"
+                    description:
+                        "Ticket retrieved successfully"
+        patch:
+            operationId: patchTicket
+            parameters:
+                -   in: path
+                    name: ticketId
+                    required: true
+                    schema:
+                        format: int64
+                        type: integer
+            requestBody:
+                content:
+                    application/json:
+                        schema:
+                            $ref: "#/components/schemas/TicketUpdate"
+                required: true
+            responses:
+                "200":
+                    content:
+                        application/json:
+                            schema:
+                                $ref: "#/components/schemas/Ticket"
+                    description:
+                        "Ticket updated successfully"

@@ -1,11 +1,11 @@
-apiDir: "../ticket-rest-api/src/main/java"
-apiPackagePath: "ticket.rest"
+apiDir: ../ticket-rest-api/src/main/java
+apiPackagePath: ticket.rest
 application:
-    baseURI: "/ticket-rest"
-    className: "TicketRestApplication"
-    name: "TicketRest"
-author: "me"
-clientDir: "../ticket-rest-client/src/main/java"
+    baseURI: /ticket-rest
+    className: TicketRestApplication
+    name: TicketRest
+author: me
+clientDir: ../ticket-rest-client/src/main/java
 forcePredictableContentApplicationXML: false
-testDir: "../ticket-rest-test/src/testIntegration/java"
-javaEEPackage: "jakarta"
+javaEEPackage: jakarta
+testDir: ../ticket-rest-test/src/testIntegration/java

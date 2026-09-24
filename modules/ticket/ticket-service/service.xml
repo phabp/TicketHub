@@ -47,7 +47,5 @@
 			<finder-column name="assignedToUserId" />
 		</finder>
 
-
-
 	</entity>
 </service-builder>

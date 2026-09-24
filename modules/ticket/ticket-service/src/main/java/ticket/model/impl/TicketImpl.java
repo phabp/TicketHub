@@ -10,4 +10,5 @@ package ticket.model.impl;
  */
 public class TicketImpl extends TicketBaseImpl {
 }
+
 // LIFERAY-SERVICE-BUILDER-HASH:62599439

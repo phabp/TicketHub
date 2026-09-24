@@ -8,13 +8,17 @@ package ticket.service.impl;
 import com.liferay.portal.aop.AopService;
 import com.liferay.portal.kernel.exception.PortalException;
 import com.liferay.portal.kernel.model.User;
+
 import java.util.Date;
 import java.util.List;
+
 import org.osgi.service.component.annotations.Component;
-import ticket.model.Ticket;
-import ticket.service.base.TicketLocalServiceBaseImpl;
+
 import ticket.exception.TicketClosedException;
 
+import ticket.model.Ticket;
+
+import ticket.service.base.TicketLocalServiceBaseImpl;
 
 /**
  * @author Brian Wing Shun Chan
@@ -28,7 +32,7 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 	public Ticket addTicket(
 			long groupId, long userId, String title, String description,
 			String category, String priority, long assignedToUserId)
-			throws PortalException {
+		throws PortalException {
 
 		User user = userLocalService.getUser(userId);
 
@@ -55,18 +59,14 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 		return ticketPersistence.update(ticket);
 	}
 
-	public List<Ticket> getTicketsByAssignedToUserId(
-			long assignedToUserId) {
-
-		return ticketPersistence.findByAssignedToUserId(
-				assignedToUserId);
+	public List<Ticket> getTicketsByAssignedToUserId(long assignedToUserId) {
+		return ticketPersistence.findByAssignedToUserId(assignedToUserId);
 	}
 
 	public Ticket updateTicket(
-			long ticketId, String title, String description,
-			String category, String priority, String status,
-			long assignedToUserId)
-			throws PortalException {
+			long ticketId, String title, String description, String category,
+			String priority, String status, long assignedToUserId)
+		throws PortalException {
 
 		Ticket ticket = getTicket(ticketId);
 
@@ -80,6 +80,7 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 
 		return updateTicket(ticket);
 	}
+
 	@Override
 	public Ticket deleteTicket(long ticketId) throws PortalException {
 		Ticket ticket = getTicket(ticketId);
@@ -90,5 +91,7 @@ public class TicketLocalServiceImpl extends TicketLocalServiceBaseImpl {
 
 		return deleteTicket(ticket);
 	}
+
 }
+
 // LIFERAY-SERVICE-BUILDER-HASH:1612458912

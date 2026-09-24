@@ -1,6 +1,5 @@
 dependencies {
 	api project(":modules:ticket:ticket-api")
-
 	compileOnly group: "com.liferay.portal", name: "release.dxp.api"
 }
 
